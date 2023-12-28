@@ -12,10 +12,18 @@
     <div class="invoice-container">
         <h1>Mock Invoice INV123</h1>
         <form action="/pay-with-payram" method="post">
-            <input name="amount" value="0.001">
+            <input name="amount" value="0.0001">
             <input name="currency" value="ETH">
-            <input name="invoiceId" value="INV123">
-            <input name="userId" value="user_123">
+            <input name="invoiceId" value="INV001">
+            <input name="userId" value="user_001">
+            <input name="expire" value="2023-12-31">
+            <button type="submit">Pay with Payram</button>
+        </form>
+        <form action="/pay-with-payram" method="post">
+            <input name="amount" value="0.0002">
+            <input name="currency" value="ETH">
+            <input name="invoiceId" value="INV002">
+            <input name="userId" value="user_002">
             <input name="expire" value="2023-12-31">
             <button type="submit">Pay with Payram</button>
         </form>
