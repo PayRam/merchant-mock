@@ -1,0 +1,26 @@
+<!-- Just a mock merchant page. Will remove after the v1 passes tests. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchant Mock Page</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+</head>
+<body>
+    <div class="invoice-container">
+        <h1>Mock Invoice INV123</h1>
+        <form action="/pay-with-payram" method="post">
+            <input name="amount" value="0.001">
+            <input name="currency" value="ETH">
+            <input name="invoiceId" value="INV123">
+            <input name="userId" value="user_123">
+            <input name="expire" value="2023-12-31">
+            <button type="submit">Pay with Payram</button>
+        </form>
+    </div>
+    <script>
+    </script>
+</body>
+</html>
