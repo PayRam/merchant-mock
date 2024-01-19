@@ -17,15 +17,13 @@ app.get('/', (req, res) => {
 // Handle the form submission by sending a POST request to the Payram server
 app.post('/pay-with-payram', async (req, res) => {
   try {
-    const { amount, currency, invoiceId, merchantUserId, expire } = req.body
+    const { amount, currency, userId } = req.body
     const payramResponse = await axios.post(
       'http://localhost:2357/api/v1/payram-payment-session',
       {
         amount,
         currency,
-        invoiceId,
-        merchantUserId,
-        expire,
+        userId,
       }
     )
     console.log('Payram response:', payramResponse.data)
