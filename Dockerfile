@@ -1,23 +1,20 @@
-# syntax=docker/dockerfile:1
-
-#docker build -t payram-web:v0.1 . 
-#docker run -d --publish 80:2358 payram-web:v0.1
-
 # Use an official Node.js LTS image as the base image
 FROM node:lts
 
-# Copy source
-COPY . /merchant-mock
-WORKDIR /merchant-mock
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json (if available) into the container
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Build the Next.js application
-RUN npm run build
+# Copy the rest of your application's source code into the container
+COPY . .
 
-# Expose the port that your Next.js application will run on
+# Your application binds to port 8081, so you'll use the EXPOSE instruction to have it mapped by the docker daemon
 EXPOSE 8081
 
-# Command to run your Next.js application
-CMD ["npm", "start"]
+# Define the command to run your app (modify the 'app.js' with your entry file name if different)
+CMD ["node", "app.js"]
