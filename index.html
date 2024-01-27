@@ -1,5 +1,3 @@
-<!-- Just a mock merchant page. Will remove after the v1 passes tests. -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,7 +42,35 @@
             <button type="submit">Pay with Payram</button>
         </form>
     </div>
+
+    <!-- Add the Payram API Host configuration here -->
+    <div class="api-host-container">
+        <label for="payramApiHost">Payram API Host:</label>
+        <input type="text" id="payramApiHost" name="payramApiHost" value="http://localhost:2357">
+        <button type="button" id="defaultApiHost">Default</button>
+        <button type="button" id="saveApiHost">Save</button>
+    </div>
+
     <script>
+        // Function to load the saved API host from local storage
+        function loadSavedApiHost() {
+            const savedHost = localStorage.getItem('payramApiHost');
+            if (savedHost) {
+                document.getElementById('payramApiHost').value = savedHost;
+            } else {
+                document.getElementById('payramApiHost').value = 'http://localhost:2357'; // Default value
+            }
+        }
+
+        // Set up event listeners
+        window.addEventListener('load', loadSavedApiHost);
+        document.getElementById('defaultApiHost').addEventListener('click', function() {
+            document.getElementById('payramApiHost').value = 'http://localhost:2357';
+        });
+        document.getElementById('saveApiHost').addEventListener('click', function() {
+            const apiHostValue = document.getElementById('payramApiHost').value;
+            localStorage.setItem('payramApiHost', apiHostValue);
+        });
     </script>
 </body>
 </html>
