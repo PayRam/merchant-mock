@@ -17,13 +17,15 @@ app.get('/', (req, res) => {
 // Handle the form submission by sending a POST request to the Payram server
 app.post('/pay-with-payram', async (req, res) => {
   try {
-    const { amount, currency, userId } = req.body
+    const { amount, currency, customer_id, customer_email } = req.body
+    console.log('Received payment request:', req.body)
     const payramResponse = await axios.post(
       'http://localhost:2357/api/v1/payram-payment-session',
       {
         amount,
         currency,
-        userId,
+        customer_id,
+        customer_email,
       }
     )
     console.log('Payram response:', payramResponse.data)
@@ -37,15 +39,24 @@ app.post('/pay-with-payram', async (req, res) => {
 
 // Webhook endpoint to receive notifications from Payram
 app.post('/payram-webhook', async (req, res) => {
-  const { invoice_id, reference_id, status, amount, currency, filled_amount, payment_info } = req.body
+  const { customer_id, invoice_id, reference_id, status, amount, currency, filled_amount, filled_amount_usd, timestamp, payment_info } = req.body
 
   console.log(
     'Received webhook for transaction:',
-    invoice_id,
     'with reference:',
     reference_id,
-    'and status:',
-    status
+    'for user:',
+    customer_id,
+    'with status:',
+    status,
+    'and amount:',
+    amount,
+    'and filled amount:',
+    filled_amount,
+    'and filled amount in USD:',
+    filled_amount_usd,
+    'and timestamp:',
+    timestamp,
   )
   // Here you would update your merchant's database and trigger any business logic
   // For example, confirming an order or updating an account balance
