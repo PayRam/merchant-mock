@@ -20,7 +20,7 @@ app.post('/pay-with-payram', async (req, res) => {
     const { amount, currency, customer_id, customer_email } = req.body
     console.log('Received payment request:', req.body)
     const payramResponse = await axios.post(
-      'http://localhost:2357/api/v1/payram-payment-session',
+      'http://localhost:8080/api/v1/payram-payment-session',
       {
         amount,
         currency,
