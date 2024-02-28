@@ -39,7 +39,7 @@ app.post('/pay-with-payram', async (req, res) => {
 
 // Webhook endpoint to receive notifications from Payram
 app.post('/payram-webhook', async (req, res) => {
-  const { customer_id, invoice_id, reference_id, status, amount, currency, filled_amount, filled_amount_usd, timestamp, payment_info } = req.body
+  const { customer_id, invoice_id, reference_id, status, amount, currency, filled_amount, filled_amount_in_usd, timestamp, payment_info } = req.body
 
   console.log(
     'Received webhook for transaction:',
@@ -54,7 +54,7 @@ app.post('/payram-webhook', async (req, res) => {
     'and filled amount:',
     filled_amount,
     'and filled amount in USD:',
-    filled_amount_usd,
+    filled_amount_in_usd,
     'and timestamp:',
     timestamp,
   )
