@@ -20,14 +20,19 @@ app.post('/pay-with-payram', async (req, res) => {
     const { amount, currency, customer_id, customer_email } = req.body
     console.log('Received payment request:', req.body)
     const payramResponse = await axios.post(
-      'http://localhost:8080/api/v1/payram-payment-session',
+      `http://localhost:8080/api/v1/payment/customer/${customer_id}`,
       {
         amount,
         currency,
         customer_id,
         customer_email,
-      }
-    )
+      },
+        {
+          headers: {
+            'API-Key': 'edb08377f27d0e2bbef02c4402559958' // Your API key
+          }
+        }
+    );
     console.log('Payram response:', payramResponse.data)
     // Redirect the user to the Payram payment page
     res.redirect(303, payramResponse.data.url)
