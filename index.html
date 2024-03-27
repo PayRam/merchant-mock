@@ -7,55 +7,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merchant Mock Payment Page</title>
     <!-- <link rel="stylesheet" href="styles.css"> -->
+    <style>
+        form button,input,select {
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div class="invoice-container">
-        <h1>Mock Invoice INV123</h1>
-        <form action="/pay-with-payram" method="post">
-            <input name="amount" value="0.4">
-            <input name="currency" value="ETH">
-            <!-- <input name="invoiceId" value="INV001"> -->
-            <input name="customer_id" value="user_001">
-            <input name="customer_email" value="a@b.c">
-            <!-- <input name="expire" value="2024-01-31"> -->
-            <button type="submit">Pay with Payram</button>
-        </form>
-        <form action="/pay-with-payram" method="post">
-            <input name="amount" value="0.02">
-            <input name="currency" value="ETH">
-            <!-- <input name="invoiceId" value="INV002"> -->
-            <input name="customer_id" value="user_002">
-            <input name="customer_email" value="x@y.z">
-            <!-- <input name="expire" value="2024-01-31"> -->
-            <button type="submit">Pay with Payram</button>
-        </form>
-        <form action="/pay-with-payram" method="post">
-            <input name="amount" value="12">
-            <input name="currency" value="USDC">
-            <!-- <input name="invoiceId" value="INV003"> -->
-            <input name="customer_id" value="user_001">
-            <input name="customer_email" value="a@b.c">
-            <!-- <input name="expire" value="2024-01-31"> -->
-            <button type="submit">Pay with Payram</button>
-        </form>
-        <form action="/pay-with-payram" method="post">
-            <input name="amount" value="16">
-            <input name="currency" value="USDC">
-            <!-- <input name="invoiceId" value="INV004"> -->
-            <input name="customer_id" value="user_002">
-            <input name="customer_email" value="x@y.z">
-            <!-- <input name="expire" value="2024-01-31"> -->
-            <button type="submit">Pay with Payram</button>
-        </form>
-        <form action="/pay-with-payram" method="post">
-            <input name="amount" value="0.2">
-            <input name="currency" value="BTC">
-            <!-- <input name="invoiceId" value="INV004"> -->
-            <input name="customer_id" value="user_004">
-            <input name="customer_email" value="btc@4y.z">
-            <!-- <input name="expire" value="2024-01-31"> -->
-            <button type="submit">Pay with Payram</button>
-        </form>        
+    <div style="margin-left: 50px;" class="invoice-container">
+        <h3>Mock Invoice INV123</h3>
+        <div style="margin-top: 10px;" id="forms-container"></div>
+
+        <script>
+            // Grouped mapping of user IDs to emails by name
+            const userGroups = {
+                "Sameer": {
+                    "user_004": "sameermhatreg@gmail.com",
+                    "user_001": "sameer@wazirx.com",
+                },
+                "Siddharth": {
+                    "pay_user_003": "siddharthmenon@gmail.com",
+                    "pay_user_004": "siddharth@payram.app",
+                }
+            };
+
+            // Currency forms data
+            const currencies = ['USDC', 'BTC', 'ETH'];
+
+            // Function to generate a random amount between 80 and 5000
+            const getRandomAmount = () => {
+                return Math.floor(Math.random() * (5000 - 80 + 1) + 80);
+            };
+
+            // Function to create forms grouped by user name and then by currency
+            const createForms = () => {
+                const container = document.getElementById('forms-container');
+
+                Object.entries(userGroups).forEach(([userName, users]) => {
+                    // Create a container for each user name
+                    const userContainer = document.createElement('div');
+                    userContainer.style = "margin-bottom: 10px;"; // Style for clarity
+                    const userNameTitle = document.createElement('h2');
+                    userNameTitle.textContent = userName;
+                    userContainer.appendChild(userNameTitle);
+
+                    currencies.forEach(currency => {
+                        // Create a container for each currency within the user name
+                        const currencyContainer = document.createElement('div');
+                        currencyContainer.style = "margin-bottom: 10px;"; // Style the currency container for clarity
+
+                        // Add a title for the currency group within the user name
+                        const currencyTitle = document.createElement('h3');
+                        currencyTitle.textContent = `Currency: ${currency}`;
+                        currencyContainer.appendChild(currencyTitle);
+
+                        Object.entries(users).forEach(([userId, userEmail]) => {
+                            const form = document.createElement('form');
+                            form.action = "/pay-with-payram";
+                            form.method = "post";
+                            form.style = "margin-bottom: 10px;";
+
+                            const randomAmount = getRandomAmount(); // Call getRandomAmount for each form
+
+                            form.innerHTML = `
+                        <input type="text" name="customer_email" value="${userEmail}" readonly>
+                        <input type="text" name="customer_id" value="${userId}" readonly>
+                        <input type="text" name="amount" value="${randomAmount}" placeholder="Amount">
+                        <input type="text" name="currency" value="${currency}" readonly>
+                        <button type="submit">Pay with ${currency}</button>
+                    `;
+
+                            // Append each form to the currency-specific container within the user name
+                            currencyContainer.appendChild(form);
+                        });
+
+                        // Append the currency container to the user name container
+                        userContainer.appendChild(currencyContainer);
+                    });
+
+                    // Append the user name container to the main container
+                    container.appendChild(userContainer);
+                });
+            };
+
+            // Call createForms on page load
+            createForms();
+        </script>
+
+
+
     </div>
     <script>
     </script>

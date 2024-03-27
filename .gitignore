@@ -2,3 +2,4 @@ node_modules
 .Ds_Store
 .env
 */.Ds_Store
+.idea
