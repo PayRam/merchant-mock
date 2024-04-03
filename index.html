@@ -1,12 +1,9 @@
-<!-- Just a mock merchant page. Will remove after the v1 passes tests. -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merchant Mock Payment Page</title>
-    <!-- <link rel="stylesheet" href="styles.css"> -->
     <style>
         form button,input,select {
             margin-left: 10px;
@@ -14,53 +11,59 @@
     </style>
 </head>
 <body>
-    <div style="margin-left: 50px;" class="invoice-container">
-        <h3>Mock Invoice INV123</h3>
-        <div style="margin-top: 10px;" id="forms-container"></div>
+<div style="margin-left: 50px;" class="invoice-container">
+    <h3>Mock Invoice INV123</h3>
+    <div style="margin-top: 10px;" id="forms-container"></div>
 
-        <script>
-            // Grouped mapping of user IDs to emails by name
-            const userGroups = {
-                "Sameer": {
-                    "user_004": "sameermhatreg@gmail.com",
-                    "user_001": "sameer@wazirx.com",
-                },
-                "Siddharth": {
-                    "pay_user_003": "siddharthmenon@gmail.com",
-                    "pay_user_004": "siddharth@payram.app",
-                }
-            };
+    <script>
+        // Grouped mapping of user IDs to emails by name
+        const userGroups = {
+            "Sameer": {
+                "user_004": "sameermhatreg@gmail.com",
+                "user_001": "sameer@wazirx.com",
+            },
+            "Siddharth": {
+                "pay_user_003": "siddharthmenon@gmail.com",
+                "pay_user_004": "siddharth@payram.app",
+            }
+        };
 
-            // Currency forms data
-            const currencies = ['USDC', 'BTC', 'ETH'];
+        // Blockchain forms data
+        const blockchains = {
+            "BTC": ["BTC"],
+            "ETH": ["ETH", "USDC"],
+            "TRX": ["USDT"],
+        };
 
-            // Function to generate a random amount between 80 and 5000
-            const getRandomAmount = () => {
-                return Math.floor(Math.random() * (5000 - 80 + 1) + 80);
-            };
+        // Function to generate a random amount between 80 and 5000
+        const getRandomAmount = () => {
+            return Math.floor(Math.random() * (5000 - 80 + 1) + 80);
+        };
 
-            // Function to create forms grouped by user name and then by currency
-            const createForms = () => {
-                const container = document.getElementById('forms-container');
+        // Function to create forms grouped by user name, then by blockchain, and then by currency
+        const createForms = () => {
+            const container = document.getElementById('forms-container');
 
-                Object.entries(userGroups).forEach(([userName, users]) => {
-                    // Create a container for each user name
-                    const userContainer = document.createElement('div');
-                    userContainer.style = "margin-bottom: 10px;"; // Style for clarity
-                    const userNameTitle = document.createElement('h2');
-                    userNameTitle.textContent = userName;
-                    userContainer.appendChild(userNameTitle);
+            Object.entries(userGroups).forEach(([userName, users]) => {
+                // Create a container for each user name
+                const userContainer = document.createElement('div');
+                userContainer.style = "margin-bottom: 10px;"; // Style for clarity
+                const userNameTitle = document.createElement('h2');
+                userNameTitle.textContent = userName;
+                userContainer.appendChild(userNameTitle);
+
+                Object.entries(blockchains).forEach(([blockchain, currencies]) => {
+                    // Create a container for each blockchain within the user name
+                    const blockchainContainer = document.createElement('div');
+                    blockchainContainer.style = "margin-bottom: 10px;"; // Style the blockchain container for clarity
+
+                    // Add a title for the blockchain group within the user name
+                    const blockchainTitle = document.createElement('h3');
+                    blockchainTitle.textContent = `Blockchain: ${blockchain}`;
+                    blockchainContainer.appendChild(blockchainTitle);
 
                     currencies.forEach(currency => {
-                        // Create a container for each currency within the user name
-                        const currencyContainer = document.createElement('div');
-                        currencyContainer.style = "margin-bottom: 10px;"; // Style the currency container for clarity
-
-                        // Add a title for the currency group within the user name
-                        const currencyTitle = document.createElement('h3');
-                        currencyTitle.textContent = `Currency: ${currency}`;
-                        currencyContainer.appendChild(currencyTitle);
-
+                        // Create forms for each currency within the blockchain
                         Object.entries(users).forEach(([userId, userEmail]) => {
                             const form = document.createElement('form');
                             form.action = "/pay-with-payram";
@@ -70,34 +73,31 @@
                             const randomAmount = getRandomAmount(); // Call getRandomAmount for each form
 
                             form.innerHTML = `
-                        <input type="text" name="customer_email" value="${userEmail}" readonly>
-                        <input type="text" name="customer_id" value="${userId}" readonly>
-                        <input type="text" name="amount" value="${randomAmount}" placeholder="Amount">
-                        <input type="text" name="currency" value="${currency}" readonly>
-                        <button type="submit">Pay with ${currency}</button>
-                    `;
+                                    <input type="text" name="customer_email" value="${userEmail}" readonly>
+                                    <input type="text" name="customer_id" value="${userId}" readonly>
+                                    <input type="text" name="amount" value="${randomAmount}" placeholder="Amount">
+                                    <input type="text" name="currency" value="${currency}" readonly>
+                                    <input type="text" name="blockchain" value="${blockchain}" readonly>
+                                    <button type="submit">Pay with ${currency} on ${blockchain}</button>
+                                `;
 
-                            // Append each form to the currency-specific container within the user name
-                            currencyContainer.appendChild(form);
+                            // Append each form to the currency-specific container within the blockchain
+                            blockchainContainer.appendChild(form);
                         });
-
-                        // Append the currency container to the user name container
-                        userContainer.appendChild(currencyContainer);
                     });
 
-                    // Append the user name container to the main container
-                    container.appendChild(userContainer);
+                    // Append the blockchain container to the user name container
+                    userContainer.appendChild(blockchainContainer);
                 });
-            };
 
-            // Call createForms on page load
-            createForms();
-        </script>
+                // Append the user name container to the main container
+                container.appendChild(userContainer);
+            });
+        };
 
-
-
-    </div>
-    <script>
+        // Call createForms on page load
+        createForms();
     </script>
+</div>
 </body>
 </html>

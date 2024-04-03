@@ -17,10 +17,10 @@ app.get('/', (req, res) => {
 // Handle the form submission by sending a POST request to the Payram server
 app.post('/pay-with-payram', async (req, res) => {
   try {
-    const { amount, currency, customer_id, customer_email } = req.body
+    const { amount, currency, blockchain, customer_id, customer_email } = req.body
     console.log('Received payment request:', req.body)
     const payramResponse = await axios.post(
-      `http://localhost:8080/api/v1/payment/customer/${customer_id}`,
+      `http://localhost:8080/api/v1/payment/customer/${customer_id}/blockchain/${blockchain}`,
       {
         amount,
         currency,
