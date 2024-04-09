@@ -20,16 +20,17 @@ app.post('/pay-with-payram', async (req, res) => {
     const { amount, currency, blockchain, customer_id, customer_email } = req.body
     console.log('Received payment request:', req.body)
     const payramResponse = await axios.post(
-      `http://localhost:8080/api/v1/payment/customer/${customer_id}/blockchain/${blockchain}`,
+      `http://localhost:8080/api/v1/payment`,
       {
         amount,
         currency,
         customer_id,
         customer_email,
+          blockchain
       },
         {
           headers: {
-            'API-Key': 'edb08377f27d0e2bbef02c4402559958' // Your API key
+            'API-Key': '4f1a2e3087fec5b0bf041172b3bf666a' // Your API key
           }
         }
     );
